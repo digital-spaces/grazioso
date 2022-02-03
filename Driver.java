@@ -323,35 +323,12 @@ public class Driver {
     // reserveAnimal method, finds the animal by animal type and in service country.
     public static void reserveAnimal(Scanner scanner) {
         System.out.println("The method reserveAnimal needs to be implemented");
-
     }
 
     // Implements the print animals method
     public static void printAnimals(String listType) {
         // Takes the argument string and runs the correct list printer
-        switch(listType) {
-            case "dog":
-                // Loops through dog list and lists all dogs
-                System.out.println("The dog list needs to be implemented");
-                break;
-            case "monkey":
-                // Loops through monkey list and lists all monkeys
-                System.out.println("The monkey list needs to be implemented");
-                break;
-            case "unreserved":
-                // Merges dog and monkey lists into one animal list
-                ArrayList<RescueAnimal> animalList = new ArrayList<RescueAnimal>();
-                animalList.addAll(dogList);
-                animalList.addAll(monkeyList);
-
-                // Loops through animal list and lists all animals available for assignment (i.e. in service but not reserved)
-                for (RescueAnimal animal : animalList) {
-                    if (animal.getTrainingStatus().equals("in service") && animal.getReserved() == false) {
-                        System.out.println(animal.getName() + ", " + animal.getTrainingStatus() + ", " + animal.getAcquisitionLocation() + ", " + animal.getReserved());
-                    }
-                }
-                break;
-        }
+        System.out.println("The method printAnimals needs to be implemented");
     }
 
     // Quit method, because one didn't exist before and this program needs a way to exit.
