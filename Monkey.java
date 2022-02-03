@@ -1,15 +1,15 @@
 public class Monkey extends RescueAnimal {
     // Instance variable
     private String species;
-    private double tailLength;
-    private double height;
-    private double bodyLength;
+    private String tailLength;
+    private String height;
+    private String bodyLength;
 
     // Monkey constructor creates a new monkey from provided data.
     public Monkey(String name, String breed, String gender, String age,
     String weight, String acquisitionDate, String acquisitionCountry,
 	String trainingStatus, boolean reserved, String inServiceCountry,
-    double tailLength, double height, double bodyLength) {
+    String tailLength, String height, String bodyLength) {
         setName(name);
         setSpecies(species);
         setGender(gender);
@@ -37,9 +37,9 @@ public class Monkey extends RescueAnimal {
         setTrainingStatus("trainingStatus");
         setReserved(false);
         setInServiceCountry("inServiceCountry");
-        setTailLength(-1.0);
-        setHeight(-1.0);
-        setBodyLength(-1.0);
+        setTailLength("-1.0");
+        setHeight("-1.0");
+        setBodyLength("-1.0");
     }
 
     // Accessor Method
@@ -53,32 +53,32 @@ public class Monkey extends RescueAnimal {
     }
 
     // Accessor Method
-    public double getTailLength() {
+    public String getTailLength() {
         return this.tailLength;
     }
 
     // Mutator Method
-    public void setTailLength(double monkeyTailLength) {
+    public void setTailLength(String monkeyTailLength) {
         this.tailLength = monkeyTailLength;
     }
 
     // Accessor Method
-    public double getHeight() {
+    public String getHeight() {
         return this.height;
     }
 
     // Mutator Method
-    public void setHeight(double monkeyHeight) {
+    public void setHeight(String monkeyHeight) {
         this.height = monkeyHeight;
     }
     
     // Accessor Method
-    public double getBodyLength() {
+    public String getBodyLength() {
         return this.bodyLength;
     }
 
     // Mutator Method
-    public void setBodyLength(double monkeyBodyLength) {
+    public void setBodyLength(String monkeyBodyLength) {
         this.bodyLength = monkeyBodyLength;
     }
 }

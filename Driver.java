@@ -21,36 +21,35 @@ public class Driver {
         String input = ""; //* The input itself
         Scanner scnr = new Scanner(System.in); //* The input scanner
 
-        while (!Arrays.asList(validInputs).contains(input)) {
+        while (true) {
             displayMenu();
-            System.out.print("Select an option:");
             input = scnr.nextLine();
-        }
 
-        switch(input) {
-            case "1":
-                intakeNewDog(scnr);
-                break;
-            case "2":
-                intakeNewMonkey(scnr);
-                break;
-            case "3":
-                reserveAnimal(scnr);
-                break;
-            case "4":
-                printAnimals("dog");
-                break;
-            case "5":
-                printAnimals("monkey");
-                break;
-            case "6":
-                printAnimals("unreserved");
-                break;
-            case "q":
-                quitApplication(scnr);
+            switch(input) {
+                case "1":
+                    intakeNewDog(scnr);
+                    break;
+                case "2":
+                    intakeNewMonkey(scnr);
+                    break;
+                case "3":
+                    reserveAnimal(scnr);
+                    break;
+                case "4":
+                    printAnimals("dog");
+                    break;
+                case "5":
+                    printAnimals("monkey");
+                    break;
+                case "6":
+                    printAnimals("unreserved");
+                    break;
+                case "q":
+                    quitApplication(scnr);
+                default:
+                    System.out.println("Invalid option. Try again.");
+            }
         }
-
-        scnr.close(); //* Close resource.
     }
 
     // This method prints the menu options
@@ -86,10 +85,10 @@ public class Driver {
     // Adds monkeys to a list for testing
     //Optional for testing
     public static void initializeMonkeyList() {
-        Monkey monkey1 = new Monkey("TB", "Capuchin", "female", "2", "25.6", "04-30-2022", "Nigeria", "intake", false, "United States", 1.6, 26.7, 24);
-        Monkey monkey2 = new Monkey("Mike", "Macaque", "male", "6", "35.2", "12-23-2021", "Nigeria", "Phase I", false, "United States", 2.7, 37.5, 35);
-        Monkey monkey3 = new Monkey("Brandon", "Squirrel monkey", "male", "8", "25.6", "11-16-2020", "South Africa", "in service", true, "Canada", 3.8, 45.8, 43);
-        Monkey monkey4 = new Monkey("Cake", "Squirrel monkey", "female", "8", "25.6", "11-16-2020", "South Africa", "in service", false, "Canada", 3.8, 45.8, 43);
+        Monkey monkey1 = new Monkey("TB", "Capuchin", "female", "2", "25.6", "04-30-2022", "Nigeria", "intake", false, "United States", "1.6", "26.7", "24");
+        Monkey monkey2 = new Monkey("Mike", "Macaque", "male", "6", "35.2", "12-23-2021", "Nigeria", "Phase I", false, "United States", "2.7", "37.5", "35");
+        Monkey monkey3 = new Monkey("Brandon", "Squirrel monkey", "male", "8", "25.6", "11-16-2020", "South Africa", "in service", true, "Canada", "3.8", "45.8", "43");
+        Monkey monkey4 = new Monkey("Cake", "Squirrel monkey", "female", "8", "25.6", "11-16-2020", "South Africa", "in service", false, "Canada", "3.8", "45.8", "43");
 
         monkeyList.add(monkey1);
         monkeyList.add(monkey2);
@@ -130,12 +129,39 @@ public class Driver {
 
         //& Dog age validation and assignment
         System.out.println("What is the dog's age?");
-        str = scanner.next();
-        while (str.int) {
-            System.out.println("Enter a valid gender (male or female):");
+        do {
             str = scanner.next();
-        }
-        dog.setGender(str);
+
+            try {
+                if (Integer.valueOf(str) < 1) {
+                    System.out.println("Enter a valid age (above 0):");
+                    str = "invalid";
+                }
+            }
+            catch (NumberFormatException ex) {
+                System.out.println("Enter a number for the age:");
+                str = "invalid";
+            }
+        } while(str == "invalid");
+        dog.setAge(str);
+
+        //& Dog weight validation and assignment
+        System.out.println("What is the dog's weight?");
+        do {
+            str = scanner.next();
+
+            try {
+                if (Double.valueOf(str) < 1.0) {
+                    System.out.println("Enter a valid weight (above 0):");
+                    str = "invalid";
+                }
+            }
+            catch (NumberFormatException ex) {
+                System.out.println("Enter a number for the weight:");
+                str = "invalid";
+            }
+        } while(str == "invalid");
+        dog.setWeight(str);
 
     }
 
