@@ -83,7 +83,7 @@ public class Driver {
 
 
     // Adds monkeys to a list for testing
-    //Optional for testing
+    // Optional for testing
     public static void initializeMonkeyList() {
         Monkey monkey1 = new Monkey("TB", "Capuchin", "female", "2", "25.6", "04-30-2022", "Nigeria", "intake", false, "United States", "1.6", "26.7", "24");
         Monkey monkey2 = new Monkey("Mike", "Macaque", "male", "6", "35.2", "12-23-2021", "Nigeria", "Phase I", false, "United States", "2.7", "37.5", "35");
