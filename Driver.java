@@ -4,23 +4,17 @@ import java.util.Scanner;
 
 public class Driver {
     private static ArrayList<Dog> dogList = new ArrayList<Dog>();
-    private static ArrayList<Monkey> monkeyList = new ArrayList<Monkey>(); //* The monkeys list
+    private static ArrayList<Monkey> monkeyList = new ArrayList<Monkey>(); // The monkeys list
 
     public static void main(String[] args) {
+        // The dog and monkey lists
         initializeDogList();
         initializeMonkeyList();
 
-        // Add a loop that displays the menu, accepts the users input
-        // and takes the appropriate action.
-	// For the project submission you must also include input validation
-        // and appropriate feedback to the user.
-        // Hint: create a Scanner and pass it to the necessary
-        // methods 
-	// Hint: Menu options 4, 5, and 6 should all connect to the printAnimals() method.
-        String[] validInputs = {"1", "2", "3", "4", "5", "6", "q"}; //* Array of valid inputs
-        String input = ""; //* The input itself
-        Scanner scnr = new Scanner(System.in); //* The input scanner
+        String input = ""; // The input itself
+        Scanner scnr = new Scanner(System.in); // The input scanner
 
+        // A loop that displays the menu, accepts the users input and takes the appropriate action.
         while (true) {
             displayMenu();
             input = scnr.nextLine();
@@ -73,7 +67,7 @@ public class Driver {
         Dog dog1 = new Dog("Spot", "German Shepherd", "male", "1", "25.6", "05-12-2019", "United States", "intake", false, "United States");
         Dog dog2 = new Dog("Rex", "Great Dane", "male", "3", "35.2", "02-03-2020", "United States", "Phase I", false, "United States");
         Dog dog3 = new Dog("Bella", "Chihuahua", "female", "4", "25.6", "12-12-2019", "Canada", "in service", true, "Canada");
-        Dog dog4 = new Dog("Vegas", "Chihuahua", "female", "4", "25.6", "12-12-2019", "Canada", "in service", false, "Canada");
+        Dog dog4 = new Dog("Vegas", "Chihuahua", "female", "4", "25.6", "12-12-2019", "Canada", "in service", false, "Canada"); // Added for testing
 
         dogList.add(dog1);
         dogList.add(dog2);
@@ -81,9 +75,7 @@ public class Driver {
         dogList.add(dog4);
     }
 
-
     // Adds monkeys to a list for testing
-    // Optional for testing
     public static void initializeMonkeyList() {
         Monkey monkey1 = new Monkey("TB", "Capuchin", "female", "2", "25.6", "04-30-2022", "Nigeria", "intake", false, "United States", "1.6", "26.7", "24");
         Monkey monkey2 = new Monkey("Mike", "Macaque", "male", "6", "35.2", "12-23-2021", "Nigeria", "Phase I", false, "United States", "2.7", "37.5", "35");
@@ -97,9 +89,7 @@ public class Driver {
     }
 
 
-    // Complete the intakeNewDog method
-    // The input validation to check that the dog is not already in the list
-    // is done for you
+    // intakeNewDog method
     public static void intakeNewDog(Scanner scanner) {
         System.out.println("What is the dog's name?");
         String name = scanner.nextLine();
@@ -110,27 +100,57 @@ public class Driver {
             }
         }
 
-        Dog dog = new Dog(); //* Create new dog
-        String str = ""; //* Placeholder string to store input
-        
-        //& Dog breed validation and assignment
-        System.out.println("What is the dog's breed?");
-        str = scanner.next();
-        dog.setBreed(str);
+        // Add the code to instantiate a new dog and add it to the appropriate list
+    }
 
-        //& Dog gender validation and assignment
-        System.out.println("What is the dog's gender?");
-        str = scanner.next();
-        while (!str.equals("male") && !str.equals("female")) {
-            System.out.println("Enter a valid gender (male or female):");
-            str = scanner.next();
+    // intakeNewMonkey method prompts user for input, sets data for attributes and adds
+    // new monkey to monkeyList.
+    public static void intakeNewMonkey(Scanner scanner) {
+        String str = ""; // String used for all input
+
+        // Validate and/or assign the monkey name (check if it exists)
+        System.out.println("What is the monkey's name?");
+        str = scanner.nextLine(); // String used for all input
+        for(Monkey m : monkeyList) {
+            if(m.getName().equalsIgnoreCase(str)) {
+                System.out.println("\n\nThis monkey is already in our system\n\n");
+                return; //returns to menu
+            }
         }
-        dog.setGender(str);
+        Monkey monkey = new Monkey(); // Empty monkey
+        monkey.setName(str);
 
-        //& Dog age validation and assignment
-        System.out.println("What is the dog's age?");
+        // Validate and assign the monkey species against the allowed species list
+        System.out.println("What is the monkey's species?");
         do {
-            str = scanner.next();
+            // List species
+            for (String s : Monkey.getMonkeySpecies()) {
+                System.out.println(s);
+            }
+            System.out.println("");
+
+            // Get new line
+            str = scanner.nextLine();
+            if (!Arrays.asList(Monkey.getMonkeySpecies()).contains(str.toLowerCase())) {
+                System.out.println("Enter a valid species:");
+                str = "invalid"; // Set loop condition
+            }
+        } while(str.equals("invalid"));
+        monkey.setSpecies(str);
+
+        // Validate and assign the monkey gender
+        System.out.println("What is the monkey's gender?");
+        str = scanner.nextLine();
+        while (!str.toLowerCase().equals("male") && !str.toLowerCase().equals("female")) {
+            System.out.println("Enter a valid gender (male or female):");
+            str = scanner.nextLine();
+        }
+        monkey.setGender(str);
+
+        // Validate and assign the monkey age
+        System.out.println("What is the monkey's age?");
+        do {
+            str = scanner.nextLine();
 
             try {
                 if (Integer.valueOf(str) < 1) {
@@ -142,13 +162,13 @@ public class Driver {
                 System.out.println("Enter a number for the age:");
                 str = "invalid";
             }
-        } while(str == "invalid");
-        dog.setAge(str);
+        } while(str.equals("invalid"));
+        monkey.setAge(str);
 
-        //& Dog weight validation and assignment
-        System.out.println("What is the dog's weight?");
+        // Validate and assign the monkey weight
+        System.out.println("What is the monkey's weight?");
         do {
-            str = scanner.next();
+            str = scanner.nextLine();
 
             try {
                 if (Double.valueOf(str) < 1.0) {
@@ -160,52 +180,173 @@ public class Driver {
                 System.out.println("Enter a number for the weight:");
                 str = "invalid";
             }
-        } while(str == "invalid");
-        dog.setWeight(str);
+        } while(str.equals("invalid"));
+        monkey.setWeight(str);
 
+        // Validate and assign the monkey tail length
+        System.out.println("What is the monkey's tail length?");
+        do {
+            str = scanner.nextLine();
+
+            try {
+                if (Double.valueOf(str) < 1.0) {
+                    System.out.println("Enter a valid tail length (above 0):");
+                    str = "invalid";
+                }
+            }
+            catch (NumberFormatException ex) {
+                System.out.println("Enter a number for the tail length:");
+                str = "invalid";
+            }
+        } while(str.equals("invalid"));
+        monkey.setTailLength(str);
+
+        // Validate and assign the monkey height
+        System.out.println("What is the monkey's height?");
+        do {
+            str = scanner.nextLine();
+
+            try {
+                if (Double.valueOf(str) < 1.0) {
+                    System.out.println("Enter a valid height (above 0):");
+                    str = "invalid";
+                }
+            }
+            catch (NumberFormatException ex) {
+                System.out.println("Enter a number for the height:");
+                str = "invalid";
+            }
+        } while(str.equals("invalid"));
+        monkey.setHeight(str);
+
+        // Validate and assign the monkey body length
+        System.out.println("What is the monkey's body length?");
+        do {
+            str = scanner.nextLine();
+
+            try {
+                if (Double.valueOf(str) < 1.0) {
+                    System.out.println("Enter a valid body length (above 0):");
+                    str = "invalid";
+                }
+            }
+            catch (NumberFormatException ex) {
+                System.out.println("Enter a number for the body length:");
+                str = "invalid";
+            }
+        } while(str.equals("invalid"));
+        monkey.setBodyLength(str);
+
+        // Assign the monkey acquisition date
+        System.out.println("What is the monkey's acquisition date?");
+        do {
+            str = scanner.nextLine();
+            if (str.equals("")) {
+                System.out.println("Enter a date:");
+            }
+        } while(str.equals(""));
+        monkey.setAcquisitionDate(str);
+
+        // Assign the monkey acquisition location
+        System.out.println("What is the monkey's acquisition location?");
+        do {
+            str = scanner.nextLine();
+            if (str.equals("")) {
+                System.out.println("Enter a location:");
+            }
+        } while(str.equals(""));
+        monkey.setAcquisitionLocation(str);
+
+        // Validate and assign the monkey training status
+        System.out.println("What is the monkey's training status?");
+        String[] statuses = {"intake", "phase i", "Phase ii", "Phase iii", "Phase iv", "Phase v", "in service", "farm"};
+        do {
+            // List status
+            System.out.println("intake");
+            System.out.println("Phase I");
+            System.out.println("Phase II");
+            System.out.println("Phase III");
+            System.out.println("Phase IV");
+            System.out.println("Phase V");
+            System.out.println("in service");
+            System.out.println("farm");
+            System.out.println("");
+
+            // Get new line
+            str = scanner.nextLine();
+            if (!Arrays.asList(statuses).contains(str.toLowerCase())) {
+                System.out.println("Enter a valid status:");
+                str = "invalid"; // Set loop condition
+            }
+        } while(str.equals("invalid"));
+        monkey.setTrainingStatus(str);
+
+        // Assign the monkey in service country
+        //! The specs indicate that animal intake tracks the training status of dogs.
+        //! It then states that the in service country is recorded when a dog is in service.
+        //! As such, I am only getting input for the in service country when training status
+        //! is in service. Otherwise, it is the acquisition country.
+        if (monkey.getTrainingStatus().equals("in service")) {
+            System.out.println("What is the monkey's in service country?");
+            do {
+                str = scanner.nextLine();
+                if (str.equals("")) {
+                    System.out.println("Enter a country:");
+                }
+            } while(str.equals(""));
+            monkey.setInServiceCountry(str);
+        }
+        else {
+            monkey.setInServiceCountry(monkey.getAcquisitionLocation());
+        }
+
+        // Assign the monkey in service country
+        //! The specs indicate that animal intake tracks the training status of dogs.
+        //! It then states that the reservation is recorded when a dog is in service.
+        //! As such, I am only getting input for the reservation status when training status
+        //! is in service. Otherwise, it stays the default (false).
+        if (monkey.getTrainingStatus().equals("in service")) {
+            System.out.println("What is the monkey's reservation status (true/false)?");
+            str = scanner.nextLine();
+            while (!str.toLowerCase().equals("true") && !str.toLowerCase().equals("false")) {
+                System.out.println("Enter a valid reservation status (true/false):");
+                str = scanner.nextLine();
+            }
+            if (str.toLowerCase().equals("true")) {
+                monkey.setReserved(true);
+            } // else nothing happens and it remains the default of false
+        }
+
+        monkeyList.add(monkey);
     }
 
-
-    // Complete intakeNewMonkey
-    //Instantiate and add the new monkey to the appropriate list
-        // For the project submission you must also  validate the input
-    // to make sure the monkey doesn't already exist and the species type is allowed
-    public static void intakeNewMonkey(Scanner scanner) {
-        System.out.println("The method intakeNewMonkey needs to be implemented");
-    }
-
-    // Complete reserveAnimal
-    // You will need to find the animal by animal type and in service country
+    // reserveAnimal method, finds the animal by animal type and in service country.
     public static void reserveAnimal(Scanner scanner) {
         System.out.println("The method reserveAnimal needs to be implemented");
 
     }
 
-    //* Implemented all print print animal lists because the assignment only said I didn't HAVE TO, not that I HAD TO NOT.
+    // Implements the print animals method
     public static void printAnimals(String listType) {
-        //* Takes the argument string and runs the correct list printer
+        // Takes the argument string and runs the correct list printer
         switch(listType) {
             case "dog":
-                //* Loops through dog list and lists all dogs
-                for (Dog dog : dogList) {
-                    System.out.println(dog.getName() + ", " + dog.getTrainingStatus() + ", " + dog.getAcquisitionLocation() + ", " + dog.getReserved());
-                }
+                // Loops through dog list and lists all dogs
+                System.out.println("The dog list needs to be implemented");
                 break;
             case "monkey":
-                //* Loops through monkey list and lists all monkeys
-                for (Monkey monkey : monkeyList) {
-                    System.out.println(monkey.getName() + ", " + monkey.getTrainingStatus() + ", " + monkey.getAcquisitionLocation() + ", " + monkey.getReserved());
-                }
+                // Loops through monkey list and lists all monkeys
+                System.out.println("The monkey list needs to be implemented");
                 break;
             case "unreserved":
-                //* Merges dog and monkey lists into one animal list
+                // Merges dog and monkey lists into one animal list
                 ArrayList<RescueAnimal> animalList = new ArrayList<RescueAnimal>();
                 animalList.addAll(dogList);
                 animalList.addAll(monkeyList);
 
-                //* Loops through animal list and lists all animals available for assignment (i.e. in service but not reserved)
+                // Loops through animal list and lists all animals available for assignment (i.e. in service but not reserved)
                 for (RescueAnimal animal : animalList) {
-                    if (animal.getTrainingStatus() == "in service" && animal.getReserved() == false) {
+                    if (animal.getTrainingStatus().equals("in service") && animal.getReserved() == false) {
                         System.out.println(animal.getName() + ", " + animal.getTrainingStatus() + ", " + animal.getAcquisitionLocation() + ", " + animal.getReserved());
                     }
                 }
@@ -213,11 +354,10 @@ public class Driver {
         }
     }
 
-    //* Quit method
+    // Quit method, because one didn't exist before and this program needs a way to exit.
     public static void quitApplication(Scanner scnr) {
-        System.out.println("Application quitting.");
-        scnr.nextLine();
+        System.out.println("Application quitting. Press enter to exit.");
+        scnr.nextLine(); // Pause the screen
         System.exit(0);
     }
 }
-

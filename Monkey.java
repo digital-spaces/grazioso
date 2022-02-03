@@ -1,11 +1,24 @@
 public class Monkey extends RescueAnimal {
-    // Instance variable
-    private String species;
+    private static String[] monkeySpecies = {"capuchin", 
+                                             "guenon", 
+                                             "macaque", 
+                                             "marmoset", 
+                                             "squirrel monkey", 
+                                             "tamarin"}; // Static variable, stores monkey species
+
+    public static String[] getMonkeySpecies() { // Accessor for the monkey species list
+        return monkeySpecies;
+    }
+
+    //& Instance variable
+    private String species; //! Could also be an enum; left as string for consistency with Dog
+    //! These would normally be doubles (most likely) but are strings to maintain consistency with the other data.
     private String tailLength;
     private String height;
     private String bodyLength;
 
-    // Monkey constructor creates a new monkey from provided data.
+    //& Monkey constructors
+    //* all-args constructor creates a new monkey from provided data.
     public Monkey(String name, String breed, String gender, String age,
     String weight, String acquisitionDate, String acquisitionCountry,
 	String trainingStatus, boolean reserved, String inServiceCountry,
@@ -25,7 +38,7 @@ public class Monkey extends RescueAnimal {
         setBodyLength(bodyLength);
     }
 
-    // no-args constructor
+    //* no-args constructor
     public Monkey() {
         setName("name");
         setSpecies("species");
@@ -42,42 +55,39 @@ public class Monkey extends RescueAnimal {
         setBodyLength("-1.0");
     }
 
-    // Accessor Method
+    //& Accessor and mutator methods for monkey instance variables
+    // Species
     public String getSpecies() {
         return this.species;
     }
 
-    // Mutator Method
     public void setSpecies(String monkeySpecies) {
         this.species = monkeySpecies;
     }
 
-    // Accessor Method
+    // Tail length
     public String getTailLength() {
         return this.tailLength;
     }
 
-    // Mutator Method
     public void setTailLength(String monkeyTailLength) {
         this.tailLength = monkeyTailLength;
     }
 
-    // Accessor Method
+    // Height
     public String getHeight() {
         return this.height;
     }
 
-    // Mutator Method
     public void setHeight(String monkeyHeight) {
         this.height = monkeyHeight;
     }
     
-    // Accessor Method
+    // Body length
     public String getBodyLength() {
         return this.bodyLength;
     }
 
-    // Mutator Method
     public void setBodyLength(String monkeyBodyLength) {
         this.bodyLength = monkeyBodyLength;
     }
