@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Arrays; // Need method.
+import java.util.Arrays; // Need method in here
 import java.util.Scanner;
 
 public class Driver {
@@ -16,9 +16,10 @@ public class Driver {
 
         // A loop that displays the menu, accepts the users input and takes the appropriate action.
         while (true) {
-            displayMenu();
-            input = scnr.nextLine();
+            displayMenu(); // Display menu
+            input = scnr.nextLine(); // Get input
 
+            // Take action based on the input 
             switch(input) {
                 case "1":
                     intakeNewDog(scnr);
@@ -317,6 +318,7 @@ public class Driver {
             } // else nothing happens and it remains the default of false
         }
 
+        // Adds new monkey to list
         monkeyList.add(monkey);
     }
 

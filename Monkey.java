@@ -18,7 +18,7 @@ public class Monkey extends RescueAnimal {
     private String bodyLength;
 
     //& Monkey constructors
-    //* all-args constructor creates a new monkey from provided data.
+    // all-args constructor creates a new monkey from provided data.
     public Monkey(String name, String breed, String gender, String age,
     String weight, String acquisitionDate, String acquisitionCountry,
 	String trainingStatus, boolean reserved, String inServiceCountry,
@@ -38,7 +38,7 @@ public class Monkey extends RescueAnimal {
         setBodyLength(bodyLength);
     }
 
-    //* no-args constructor
+    // no-args constructor
     public Monkey() {
         setName("name");
         setSpecies("species");
