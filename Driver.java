@@ -67,7 +67,7 @@ public class Driver {
     public static void initializeDogList() {
         Dog dog1 = new Dog("Spot", "German Shepherd", "male", "1", "25.6", "05-12-2019", "United States", "intake", false, "United States");
         Dog dog2 = new Dog("Rex", "Great Dane", "male", "3", "35.2", "02-03-2020", "United States", "Phase I", false, "United States");
-        Dog dog3 = new Dog("Bella", "Chihuahua", "female", "4", "25.6", "12-12-2019", "Canada", "in service", true, "Canada");
+        Dog dog3 = new Dog("Bella", "Chihuahua", "female", "4", "25.6", "12-12-2019", "Canada", "in service", false, "Canada");
         Dog dog4 = new Dog("Vegas", "Chihuahua", "female", "4", "25.6", "12-12-2019", "Canada", "in service", false, "Canada"); // Added for testing
 
         dogList.add(dog1);
@@ -92,16 +92,157 @@ public class Driver {
 
     // intakeNewDog method
     public static void intakeNewDog(Scanner scanner) {
+        String str = ""; // String used for all input
+
+        // Validate and/or assign the dog name (check if it exists)
         System.out.println("What is the dog's name?");
-        String name = scanner.nextLine();
-        for(Dog dog: dogList) {
-            if(dog.getName().equalsIgnoreCase(name)) {
+        str = scanner.nextLine(); // String used for all input
+        for(Dog dog : dogList) {
+            if(dog.getName().equalsIgnoreCase(str)) {
                 System.out.println("\n\nThis dog is already in our system\n\n");
                 return; //returns to menu
             }
         }
+        Dog dog = new Dog(); // Empty dog
+        dog.setName(str);
 
-        // Add the code to instantiate a new dog and add it to the appropriate list
+        // Validate and assign the dog breed against the allowed species list
+        System.out.println("What is the dog's breed?");
+        do {
+            str = scanner.nextLine();
+            if (str.equals("")) {
+                System.out.println("Enter a breed:");
+            }
+        } while(str.equals(""));
+        dog.setBreed(str);
+
+        // Validate and assign the dog gender
+        System.out.println("What is the dog's gender?");
+        str = scanner.nextLine();
+        while (!str.toLowerCase().equals("male") && !str.toLowerCase().equals("female")) {
+            System.out.println("Enter a valid gender (male or female):");
+            str = scanner.nextLine();
+        }
+        dog.setGender(str);
+
+        // Validate and assign the dog age
+        System.out.println("What is the dog's age?");
+        do {
+            str = scanner.nextLine();
+
+            try {
+                if (Integer.valueOf(str) < 1) {
+                    System.out.println("Enter a valid age (above 0):");
+                    str = "invalid";
+                }
+            }
+            catch (NumberFormatException ex) {
+                System.out.println("Enter a number for the age:");
+                str = "invalid";
+            }
+        } while(str.equals("invalid"));
+        dog.setAge(str);
+
+        // Validate and assign the dog weight
+        System.out.println("What is the dog's weight?");
+        do {
+            str = scanner.nextLine();
+
+            try {
+                if (Double.valueOf(str) < 1.0) {
+                    System.out.println("Enter a valid weight (above 0):");
+                    str = "invalid";
+                }
+            }
+            catch (NumberFormatException ex) {
+                System.out.println("Enter a number for the weight:");
+                str = "invalid";
+            }
+        } while(str.equals("invalid"));
+        dog.setWeight(str);
+
+        // Assign the dog acquisition date
+        System.out.println("What is the dog's acquisition date?");
+        do {
+            str = scanner.nextLine();
+            if (str.equals("")) {
+                System.out.println("Enter a date:");
+            }
+        } while(str.equals(""));
+        dog.setAcquisitionDate(str);
+
+        // Assign the dog acquisition location
+        System.out.println("What is the dog's acquisition location?");
+        do {
+            str = scanner.nextLine();
+            if (str.equals("")) {
+                System.out.println("Enter a location:");
+            }
+        } while(str.equals(""));
+        dog.setAcquisitionLocation(str);
+
+        // Validate and assign the dog training status
+        System.out.println("What is the dog's training status?");
+        String[] statuses = {"intake", "phase i", "Phase ii", "Phase iii", "Phase iv", "Phase v", "in service", "farm"};
+        do {
+            // List status
+            System.out.println("intake");
+            System.out.println("Phase I");
+            System.out.println("Phase II");
+            System.out.println("Phase III");
+            System.out.println("Phase IV");
+            System.out.println("Phase V");
+            System.out.println("in service");
+            System.out.println("farm");
+            System.out.println("");
+
+            // Get new line
+            str = scanner.nextLine();
+            if (!Arrays.asList(statuses).contains(str.toLowerCase())) {
+                System.out.println("Enter a valid status:");
+                str = "invalid"; // Set loop condition
+            }
+        } while(str.equals("invalid"));
+        dog.setTrainingStatus(str);
+
+        // Assign the dog in service country
+        //! The specs indicate that animal intake tracks the training status of dogs.
+        //! It then states that the in service country is recorded when a dog is in service.
+        //! As such, I am only getting input for the in service country when training status
+        //! is in service. Otherwise, it is the acquisition country.
+        if (dog.getTrainingStatus().equals("in service")) {
+            System.out.println("What is the dog's in service country?");
+            do {
+                str = scanner.nextLine();
+                if (str.equals("")) {
+                    System.out.println("Enter a country:");
+                }
+            } while(str.equals(""));
+            dog.setInServiceCountry(str);
+        }
+        else {
+            dog.setInServiceCountry(dog.getAcquisitionLocation());
+        }
+
+        // Assign the dog in service country
+        //! The specs indicate that animal intake tracks the training status of dogs.
+        //! It then states that the reservation is recorded when a dog is in service.
+        //! As such, I am only getting input for the reservation status when training status
+        //! is in service. Otherwise, it stays the default (false).
+        if (dog.getTrainingStatus().equals("in service")) {
+            System.out.println("What is the dog's reservation status (true/false)?");
+            str = scanner.nextLine();
+            while (!str.toLowerCase().equals("true") && !str.toLowerCase().equals("false")) {
+                System.out.println("Enter a valid reservation status (true/false):");
+                str = scanner.nextLine();
+            }
+            if (str.toLowerCase().equals("true")) {
+                dog.setReserved(true);
+            } // else nothing happens and it remains the default of false
+        }
+
+        // Adds new dog to list
+        dogList.add(dog);
     }
 
     // intakeNewMonkey method prompts user for input, sets data for attributes and adds
@@ -324,13 +465,83 @@ public class Driver {
 
     // reserveAnimal method, finds the animal by animal type and in service country.
     public static void reserveAnimal(Scanner scanner) {
-        System.out.println("The method reserveAnimal needs to be implemented");
+        String type;
+        String location;
+
+        // Get and validate animal type
+        System.out.println("What animal type do you need?");
+        do {
+            type = scanner.nextLine();
+            if (type.equals("")) {
+                System.out.println("Enter an animal type:");
+            }
+            else if (!type.toLowerCase().equals("monkey") && !type.toLowerCase().equals("dog")) {
+                System.out.println("Enter a valid animal type (monkey or dog):");
+            }
+        } while(!type.toLowerCase().equals("monkey") && !type.toLowerCase().equals("dog"));
+
+        // Get and validate animal location
+        System.out.println("Where do you need the animal?");
+        do {
+            location = scanner.nextLine().toLowerCase();
+            if (location.equals("")) {
+                System.out.println("Enter a location:");
+            }
+        } while(location.equals(""));
+
+        // Check for in-service animals of the type specified in the location specified that are not reserved.
+        // If one is found, reserve it and exit the reserveAnimal method.
+        switch(type) {
+            case "dog":
+                for (Dog dog : dogList) {
+                    if (dog.getTrainingStatus().equals("in service") && dog.getInServiceLocation().toLowerCase().equals(location) && dog.getReserved() == false) {
+                        dog.setReserved(true);
+                        return;
+                    }
+                }
+            case "monkey":
+                for (Monkey monkey : monkeyList) {
+                    if (monkey.getTrainingStatus().equals("in service") && monkey.getInServiceLocation().toLowerCase().equals(location) && monkey.getReserved() == false) {
+                        monkey.setReserved(true);
+                        return;
+                    }
+                }
+        }
+        
+        // If no desired animal is found, let user know.
+        System.out.println("No available " + type + " found in " + location + ".");
     }
 
     // Implements the print animals method
     public static void printAnimals(String listType) {
         // Takes the argument string and runs the correct list printer
-        System.out.println("The method printAnimals needs to be implemented");
+        switch(listType) {
+            case "dog":
+                // Loops through dog list and lists all dogs
+                for (Dog dog : dogList) {
+                    System.out.println(dog.getName() + ", " + dog.getTrainingStatus() + ", " + dog.getAcquisitionLocation() + ", " + dog.getReserved());
+                }
+                break;
+            case "monkey":
+                // Loops through monkey list and lists all monkeys
+                for (Monkey monkey : monkeyList) {
+                    System.out.println(monkey.getName() + ", " + monkey.getTrainingStatus() + ", " + monkey.getAcquisitionLocation() + ", " + monkey.getReserved());
+                }
+                break;
+            case "unreserved":
+                // Merges dog and monkey lists into one animal list
+                ArrayList<RescueAnimal> animalList = new ArrayList<RescueAnimal>();
+                animalList.addAll(dogList);
+                animalList.addAll(monkeyList);
+
+                // Loops through animal list and lists all animals available for assignment (i.e. in service but not reserved)
+                for (RescueAnimal animal : animalList) {
+                    if (animal.getTrainingStatus().equals("in service") && animal.getReserved() == false) {
+                        System.out.println(animal.getName() + ", " + animal.getTrainingStatus() + ", " + animal.getAcquisitionLocation() + ", " + animal.getReserved());
+                    }
+                }
+                break;
+        }
     }
 
     // Quit method, because one didn't exist before and this program needs a way to exit.
